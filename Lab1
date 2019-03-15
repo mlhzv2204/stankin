@@ -1,147 +1,76 @@
 #include <stdio.h>
-
 #include <stdlib.h> 
 
 int main (void){
-
 	int a, b, c, d, min1, min2, min, x, y, z, max1, max2;	printf("Введите четыре целых числа разных по значению\n");
-
 	rescan:
-
 	scanf("%d %d %d %d",&a ,&b, &c, &d);
-
 	if(a!=b && a!=c){
-
 		if(a!=d && b!=c){
-
 			if(b!=d && c!=d){	
-
 				goto next;
-
 				}}}
-
 				printf("Хотя бы два числа одинаковые по значению, попробуйте ввести 4 числа ещё раз:\n");
-
 				goto rescan;
-
+	
 	next:
-
 	printf("Даны числа:\nA = %d\nB = %d\nC = %d\nD = %d\nВерно ли что наименьшее из них равно разности двух наибольших по модулю?\n", a, b, c, d);
-
 	if(a > b)
-
 		min1 = b;
-
 	else
-
 		min1 = a;
 
-	
-
 	if(c > d)
-
 		min2 = d;
-
 	else
-
 		min2 = c;
 
-	
-
 	if(min1 > min2){
-
 		min = min2;
-
 		if(c == min){
-
 			x = a;
-
 			y = b;
-
 			z = d;}
-
 		else{
-
 			x = a;
-
 			y = b;
-
 			z = c;
-
 			}
-
 		}
-
 	else{
-
 		min = min1;
-
 		if(a == min){
-
 			x = c;
-
 			y = b;
-
 			z = d;}
-
 		else{
-
 			x = a;
-
 			y = d;
-
 			z = c;
-
 			}
-
 		}
-
 	
-
 	if (x > y)
-
 		if (y > z){
-
 			max1 = x;
-
 			max2 = y;
-
 			}
-
 		else{
-
 			max1 = x;
-
 			max2 = z;
-
 			}
-
 	else if (x > z){
-
 		max1 = x;
-
 		max2 = y;
-
 		}
-
 	else{
-
 		max1 = z;
-
 		max2 = y;
-
 		}
-
-	
 
 	if(abs(max1 - max2) == min)
-
 		printf("Верно\n");
-
 	else
-
 		printf("Неверно\n");		
-
 	return 0;
-
-	}
+}
