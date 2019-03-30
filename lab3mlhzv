@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <conio.h>
+
+void main()
+{
+	int N, M, i, j;
+	float a[20][20], sum, max;
+	printf("Vvedite razmernost' massiva\n");
+	scanf("%d %d", &N, &M);
+	printf("\nVvedite elementId massiva\n");
+	for(i = 0; i < N; i++)
+		for(j = 0; j < M; j++){
+			printf("a[%d][%d] = ", i+1, j+1);
+			scanf("%f", &a[i][j]);
+		}
+	sum = 0;
+	for(j = 0; j < M; j++){
+		max = a[0][j];
+		for(i = 0; i < N; i++)
+			if(a[i][j] > max)
+				max = a[i][j];
+		sum += max;
+	}
+	printf("\nSumma max elementov = %f ", sum);
+	getch();
+}
