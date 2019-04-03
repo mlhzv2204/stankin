@@ -21,6 +21,6 @@ void main()
 				max = a[i][j];
 		sum += max;
 	}
-	printf("\nSumma max elementov = %f ", sum);
+	printf("\nSumma max elementov = %.3f ", sum);
 	getch();
 }
