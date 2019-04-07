@@ -2,156 +2,159 @@
 #include <stdlib.h>
 
 int main (void){
-    float a, b, c, d, maxA, maxB, min, max1, max2, kol = 0.;
-    printf("Vvedite 4 4isla\n");
-    scanf("%f %f %f %f",&a ,&b, &c, &d);
-    if(a!=b && a!=c){
-        if(a!=d && b!=c){
-            if(b!=d && c!=d){
-                kol = 1;
-                printf("Dany chisla:\nA = %f\nB = %f\nC = %f\nD = %f\nVerno li chto naimen'shee iz nih ravno raznosti dvuh naibol'shih po modulyu?\n", a, b, c, d);
-                if(a > b)
-                    maxA = a;
-                else
-                    maxA = b;
+float a, b, c, d, maxA, maxB, min, max1, max2, kol = 0.;
+printf("Vvedite 4 4isla\n");
+scanf("%f %f %f %f",&a ,&b, &c, &d);
+if(a!=b && a!=c){
+    if(a!=d && b!=c){
+        if(b!=d && c!=d){
+            kol = 1;
+            printf("Dany chisla:\nA = %f\nB = %f\nC = %f\nD = %f\nVerno li chto naimen'shee iz nih ravno raznosti dvuh naibol'shih po modulyu?\n", a, b, c, d);
+            if(a > b)
+                maxA = a;
+            else
+                maxA = b;
 
-                if(c > d)
-                    maxB = c;
-                else
-                    maxB = d;
+            if(c > d)
+                maxB = c;
+            else
+                maxB = d;
 
-                if(maxA > maxB)
-                    max1 = maxA;
-                else
-                    max1 = maxB;
+            if(maxA > maxB)
+                max1 = maxA;
+            else
+                max1 = maxB;
 
-                if (max1 == a)
-                    if(b > c)
-                        if(b > d){
-                            max2 = b;
-                            if (c > d)
+            if (max1 == a)
+                if(b > c)
+                    if(b > d){
+                        max2 = b;
+                        if (c > d)
+                            min = d;
+                        else
+                            min = c;}
+                        else{
+                            max2 = d;
+                            if (b > c)
+                                min = c;
+                            else
+                                min = b;
+                        }
+                        else if (c > d){
+                            max2 = c;
+                            if (b > d)
                                 min = d;
                             else
-                                min = c;}
-                            else{
-                                max2 = d;
-                                if (b > c)
-                                    min = c;
-                                else
-                                    min = b;
-                            }
-                            else if (c > d){
-                                max2 = c;
-                                if (b > d)
-                                    min = d;
-                                else
-                                    min = b;
-                            }
-                            else{
-                                max2 = d;
-                                if (b > c)
-                                    min = c;
-                                else
-                                    min = b;
-                            }
+                                min = b;
+                        }
+                        else{
+                            max2 = d;
+                            if (b > c)
+                                min = c;
+                            else
+                                min = b;
+                        }
 
-                            if (max1 == b)
-                                if(a > c)
-                                    if(a > d){
-                                        max2 = a;
-                                        if (c > d)
-                                            min = d;
-                                        else
-                                            min = c;
-                                    }
-                                    else{
-                                        max2 = d;
-                                        if (a > c)
-                                            min = c;
-                                        else
-                                            min = a;
-                                    }
-                                    else if (c > d){
-                                        max2 = c;
-                                        if (a > d)
-                                            min = d;
-                                        else
-                                            min = a;
-                                    }
-                                    else{
-                                        max2 = d;
-                                        if (a > c)
-                                            min = c;
-                                        else
-                                            min = a;
-                                    }
-                                    if (max1 == c)
-                                        if(a > b)
-                                            if(a > d){
-                                                max2 = a;
-                                                if (b > d)
-                                                    min = d;
-                                                else
-                                                    min = b;
-                                            }
-                                            else{
-                                                max2 = d;
-                                                if (a > b)
-                                                    min = b;
-                                                else
-                                                    min = a;
-                                            }
-                                            else if (b > d){
-                                                max2 = b;
-                                                if (a > d)
-                                                    min = d;
-                                                else
-                                                    min = a;
-                                            }
-                                            else{
-                                                max2 = d;
-                                                if (a > b)
-                                                    min = b;
-                                                else
-                                                    min = a;
-                                            }
-                                            if (max1 == d)
-                                                if(a > b)
-                                                    if(a > c){
-                                                        max2 = a;
-                                                        if (b > c)
-                                                            min = c;
-                                                        else
-                                                            min = b;
-                                                    }
-                                                    else{
-                                                        max2 = c;
-                                                        if (a > b)
-                                                            min = b;
-                                                        else
-                                                            min = a;
-                                                    }
-                                                    else if (b > c){
-                                                        max2 = b;
-                                                        if (a > c)
-                                                            min = c;
-                                                        else
-                                                            min = a;
-                                                    }
-                                                    else{
-                                                        max2 = c;
-                                                        if (a > b)
-                                                            min = b;
-                                                        else
-                                                            min = a;
-                                                    }
+            if (max1 == b)
+                if(a > c)
+                    if(a > d){
+                        max2 = a;
+                        if (c > d)
+                            min = d;
+                        else
+                            min = c;
+                    }
+                    else{
+                        max2 = d;
+                        if (a > c)
+                            min = c;
+                        else
+                            min = a;
+                    }
+                    else if (c > d){
+                        max2 = c;
+                        if (a > d)
+                            min = d;
+                        else
+                            min = a;
+                    }
+                    else{
+                        max2 = d;
+                        if (a > c)
+                            min = c;
+                        else
+                            min = a;
+                    }
 
-                                                    if(abs(max1 - max2) == min)
-                                                        printf("Verno\n");
-                                                    else
-                                                        printf("Neverno\n");
-                                                }}}
-                                                if(kol == 0.)
-                                                    printf("Hotya by dva chisla odinakovye po znacheniyu, vyhod iz programmy");
-                                                return 0;
-                                            }
+            if (max1 == c)
+                if(a > b)
+                    if(a > d){
+                        max2 = a;
+                        if (b > d)
+                            min = d;
+                        else
+                            min = b;
+                    }
+                    else{
+                        max2 = d;
+                        if (a > b)
+                            min = b;
+                        else
+                            min = a;
+                    }
+                    else if (b > d){
+                        max2 = b;
+                        if (a > d)
+                            min = d;
+                        else
+                            min = a;
+                    }
+                    else{
+                        max2 = d;
+                        if (a > b)
+                            min = b;
+                        else
+                            min = a;
+                    }
+
+            if (max1 == d)
+                if(a > b)
+                    if(a > c){
+                        max2 = a;
+                        if (b > c)
+                            min = c;
+                        else
+                            min = b;
+                    }
+                    else{
+                        max2 = c;
+                        if (a > b)
+                            min = b;
+                        else
+                            min = a;
+                    }
+                    else if (b > c){
+                        max2 = b;
+                        if (a > c)
+                            min = c;
+                        else
+                            min = a;
+                    }
+                    else{
+                        max2 = c;
+                        if (a > b)
+                            min = b;
+                        else
+                            min = a;
+                    }
+
+            if(abs(max1 - max2) == min)
+                printf("Verno\n");
+            else
+                printf("Neverno\n");
+        }}}
+        
+        if(kol == 0.)
+            printf("Hotya by dva chisla odinakovye po znacheniyu, vyhod iz programmy");
+        return 0;
+    }
