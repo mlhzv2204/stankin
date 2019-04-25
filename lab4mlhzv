@@ -5,10 +5,10 @@ int main(void){
 	char c;
 	FILE *f1;
 	f1 = fopen("result_file.txt", "w");
-	while ((c = getchar()) != EOF){
+	while((c = getchar()) != EOF){
 		if(c == '.'){
 			fprintf(f1,"%c",c);
-			while (((c = getchar()) != EOF) && (c == '.'));
+			while(((c = getchar()) != EOF) && (c == '.'));
 		}
 		fprintf(f1,"%c",c);
 	}
