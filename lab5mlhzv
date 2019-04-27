@@ -2,7 +2,6 @@
 #include <conio.h>
 
 int scan_array(float[30]);
-void source_array(float[30], int);
 void change_array(float[30], int);
 void print_array(float[30], int);
 
@@ -10,7 +9,7 @@ void main(void){
 	int N;
 	float a[30];
 	N = scan_array(a);
-	source_array(a, N);
+	print_array(a, N);
 	change_array(a, N);
 	print_array(a, N);
 	getch();
@@ -27,13 +26,6 @@ int scan_array(float a[30]){ // Заполнение массива числам
 	return N;
 }
 
-void source_array(float a[30], int N){ // Вывод исходного массива
-	int i;
-	printf("\nIshodnii massiv:\n");
-	for(i = 0; i < N; i++)
-		printf("a[%d] = %.3f\n", i+1, a[i]);
-}
-
 void change_array(float a[30], int N){ // Замена каждого элемента, меньшего последнего элемента этого масиива, квадратом первого элемента массива
 	int i;
 	for(i = 1; i < N; i++)
@@ -48,4 +40,3 @@ void print_array(float a[30], int N){ // Вывод получившегося �
 	printf("\nVivod massiva:\n");
 	for(i = 0; i < N; i++)
 		printf("a[%d] = %.3f\n", i+1, a[i]);
-}
