@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <conio.h>
 
 void main(void){
 	char c;
@@ -10,13 +9,13 @@ void main(void){
 	while((c = fgetc(f1)) != EOF){
 		if(c == '.'){
 			if(kol == 1){
-				fputc(c,f2);
+				fputc('.',f2);
 				kol = 0;
-			}}
+			}
+		}
 		else{
-			if(c != '.')
-            	kol = 1;
 			fputc(c,f2);
+			kol = 1;
         }
 	}
 	fclose(f1);
