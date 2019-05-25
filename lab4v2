@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+void main(void){
+	char c;
+	int number_a = 0, number_b = 0;
+	FILE *f1, *f2;
+	f1 = fopen("source_file.txt", "r");
+	f2 = fopen("output_file.txt", "w");
+	while((c = fgetc(f1)) != EOF){
+		if(c == 'a')
+			number_a += 1;
+        if(c == 'b')
+			number_b += 1;
+	}
+	if(number_a != 0 && number_b != 0)
+        if(number_a > number_b)
+            fputs("true",f2);
+        else
+            fputs("false",f2);
+	fclose(f1);
+	fclose(f2);
+}
