@@ -17,10 +17,10 @@ void main(void){
 
 int scan_array(float a[30]){ // Заполнение массива числами и возвращение кол-ва элементов массива
 	int N, i;
-	printf("Vvedite razmernost' massiva\n");
+	printf("Vvedite razmernost' massiva: ");
 	scanf("%d", &N);
 	for(i = 0; i < N; i++){
-        printf("Vvedite a[%d]", i+1);
+        printf("Vvedite a[%d]: ", i+1);
 		scanf("%f", &a[i]);
 	}
 	return N;
@@ -32,7 +32,7 @@ void change_array(float a[30], int N){ // Замена каждого элеме
 		if(a[i] < a[N-1])
 			a[i] = (a[0]*a[0]);
 	if(a[0] <  a[N-1])
-       a[0] = (a[0]*a[0]);
+       a[0] = a[0]*a[0];
 }
 
 void print_array(float a[30], int N){ // Вывод получившегося массива
@@ -40,3 +40,4 @@ void print_array(float a[30], int N){ // Вывод получившегося �
 	printf("\nVivod massiva:\n");
 	for(i = 0; i < N; i++)
 		printf("a[%d] = %.3f\n", i+1, a[i]);
+}
