@@ -6,7 +6,8 @@ void main(void){
 	FILE *f1, *f2;
 	f1 = fopen("source_file.txt", "r");
 	f2 = fopen("output_file.txt", "w");
-	while((c = fgetc(f1)) != EOF){
+	while(!feof(f1)){ 
+		c = fgetc(f1);
 		if(c == '.'){
 			if(kol == 1){
 				fputc('.',f2);
@@ -16,7 +17,7 @@ void main(void){
 		else{
 			fputc(c,f2);
 			kol = 1;
-        }
+		}
 	}
 	fclose(f1);
 	fclose(f2);
