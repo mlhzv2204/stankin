@@ -1,62 +1,70 @@
 #include <stdio.h>
 #include <conio.h>
  
-void scan(float[20][20],int*,int*);
-void change(float[20][20],float[20][20],int,int);
-void print(float[20][20],int,int);
+void scan(float[20][20],int*);
+void change(float[20][20],float[20][20],int);
+void print(float[20][20],int);
  
 void main(void)
 {
-int N, M;
+int N;
 float arr[20][20], count[20][20];
-scan(arr, &N, &M);
-change(arr, count, N, M);
-print(count, N, M);
+scan(arr, &N);
+change(arr, count, N);
+print(count, N);
 getch();
 }
  
-void scan(float arr[20][20], int *N, int *M){
-    int i, j;
-    scanf("%d %d", N, M);
-    for(i = 0; i < *N; i++)
-        for(j = 0; j < *M; j++){
-			printf("arr[%d][%d] = ", i+1, j+1);
+void scan(float arr[20][20], int *N){
+	int i, j;
+	printf("N = ");
+	scanf("%d", N);
+	for(i = 0; i < *N; i++){
+		printf("\n");
+		for(j = 0; j < *N; j++){
+			printf("arr[%d][%d] = \t", i+1, j+1);
 			scanf("%f", &arr[i][j]);
-        }
+		}
+	}
 }
-void change(float arr[20][20], float count[20][20], int N, int M){
+
+void change(float arr[20][20], float count[20][20], int N){
     int i, j, q, k;
 	for(i = 0; i < N; i++){
-		for(j = 0; j < M; j++){
+		for(j = 0; j < N; j++){
 			count[i][j] = arr[i][j];
+			k = 0;
 			q = i;
-			for(k = j; k < N;k++){
-				if(q == 0 && k < j){
-					if(arr[0][k] < count[0][j])
-						count[0][j] = arr[0][k];
-                continue;
-				}
-				if (q < k) {
-					q =- 1;
-				}
-				if(arr[q][k]<count[i][j])
-					count[i][j] = arr[q][k];
+			if(i == 0)
+				while(j >= k){
+					if(count[i][j] > arr[q][k])
+						count[i][j] = arr[q][k];
+					k++;
 			}
-
+			if(i != 0)
+				for(; k < N; k++){
+					if(count[i][j] > arr[q][k])
+						count[i][j] = arr[q][k];
+					if(k == j){
+						q -= 1;
+						if(count[i][j] > arr[q][k])
+							count[i][j] = arr[q][k];
+					}
+				}
 		}
-
-    }
+	}
 }
-void print(float count[20][20], int N, int M){
+
+void print(float count[20][20], int N){
 	int nn = 1,i,j;
 		printf("___________________\n");
 		printf("|Number|i|j|result|\n");
+		printf("-------------------\n");
 		nn=1;
 		for (i = 0; i < N; i++)
-			for (j = 0; j < M; j++){
-				printf("|%6d|%d|%d|%.4f|\n",nn ,i+1, j+1, count[i][j]);
+			for (j = 0; j < N; j++){
+				printf("|%-6d|%d|%d|%6.f|\n",nn ,i+1, j+1, count[i][j]);
 				nn++;
 			}
 		getch();
-
 }
