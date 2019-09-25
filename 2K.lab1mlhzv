@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <conio.h>
+ 
+void scan(float[20][20],int*,int*);
+void change(float[20][20],float[20][20],int,int);
+void print(float[20][20],int,int);
+ 
+void main(void)
+{
+int N, M;
+float arr[20][20], count[20][20];
+scan(arr, &N, &M);
+change(arr, count, N, M);
+print(count, N, M);
+getch();
+}
+ 
+void scan(float arr[20][20], int *N, int *M){
+    int i, j;
+    scanf("%d %d", N, M);
+    for(i = 0; i < *N; i++)
+        for(j = 0; j < *M; j++){
+			printf("arr[%d][%d] = ", i+1, j+1);
+			scanf("%f", &arr[i][j]);
+        }
+}
+void change(float arr[20][20], float count[20][20], int N, int M){
+    int i, j, q, k;
+	for(i = 0; i < N; i++){
+		for(j = 0; j < M; j++){
+			count[i][j] = arr[i][j];
+			q = i;
+			for(k = j; k < N; k++){
+				if(q == 0 && k < j){
+					if(arr[i][k] < count[i][j])
+						count[i][j] = arr[i][k];
+                continue;
+				}
+				if (q < k) {
+					q =- 1;
+				}
+				if(arr[q][k]<count[i][j])
+					count[i][j] = arr[q][k];
+			}
+
+		}
+
+    }
+}
+void print(float count[20][20], int N, int M){
+	int nn = 1,i,j;
+		printf("___________________\n");
+		printf("|Number|i|j|result|\n");
+		nn=1;
+		for (i = 0; i < N; i++)
+			for (j = 0; j < M; j++){
+				printf("|%6d|%d|%d|%.4f|\n",nn ,i+1, j+1, count[i][j]);
+				nn++;
+			}
+		getch();
+
+}
