@@ -5,14 +5,13 @@ void scan(float[20][20],int*);
 void change(float[20][20],float[20][20],int);
 void print(float[20][20],int);
  
-void main(void)
-{
-int N;
-float arr[20][20], count[20][20];
-scan(arr, &N);
-change(arr, count, N);
-print(count, N);
-getch();
+void main(void){
+	int N;
+	float arr[20][20], count[20][20];
+	scan(arr, &N);
+	change(arr, count, N);
+	print(count, N);
+	getch();
 }
  
 void scan(float arr[20][20], int *N){
