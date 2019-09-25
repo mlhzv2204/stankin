@@ -30,10 +30,10 @@ void change(float arr[20][20], float count[20][20], int N, int M){
 		for(j = 0; j < M; j++){
 			count[i][j] = arr[i][j];
 			q = i;
-			for(k = j; k < N; k++){
+			for(k = j; k < N;k++){
 				if(q == 0 && k < j){
-					if(arr[i][k] < count[i][j])
-						count[i][j] = arr[i][k];
+					if(arr[0][k] < count[0][j])
+						count[0][j] = arr[0][k];
                 continue;
 				}
 				if (q < k) {
