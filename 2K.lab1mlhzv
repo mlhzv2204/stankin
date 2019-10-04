@@ -5,13 +5,14 @@ void scan(float[20][20],int*);
 void change(float[20][20],float[20][20],int);
 void print(float[20][20],int);
  
-void main(void){
-	int N;
-	float arr[20][20], count[20][20];
-	scan(arr, &N);
-	change(arr, count, N);
-	print(count, N);
-	getch();
+void main(void)
+{
+int N;
+float arr[20][20], count[20][20];
+scan(arr, &N);
+change(arr, count, N);
+print(count, N);
+getch();
 }
  
 void scan(float arr[20][20], int *N){
@@ -21,7 +22,7 @@ void scan(float arr[20][20], int *N){
 	for(i = 0; i < *N; i++){
 		printf("\n");
 		for(j = 0; j < *N; j++){
-			printf("arr[%d][%d] = \t", i+1, j+1);
+			printf("arr[%d][%d] = ", i+1, j+1);
 			scanf("%f", &arr[i][j]);
 		}
 	}
@@ -29,40 +30,37 @@ void scan(float arr[20][20], int *N){
 
 void change(float arr[20][20], float count[20][20], int N){
     int i, j, q, k;
-	for(i = 0; i < N; i++){
-		for(j = 0; j < N; j++){
-			count[i][j] = arr[i][j];
-			k = 0;
-			q = i;
-			if(i == 0)
-				while(j >= k){
-					if(count[i][j] > arr[q][k])
-						count[i][j] = arr[q][k];
-					k++;
-			}
-			if(i != 0)
-				for(; k < N; k++){
-					if(count[i][j] > arr[q][k])
-						count[i][j] = arr[q][k];
-					if(k == j){
-						q -= 1;
-						if(count[i][j] > arr[q][k])
-							count[i][j] = arr[q][k];
-					}
-				}
-		}
-	}
+    for(i = 0; i < N; i++){
+        for(j = 0; j < N; j++){
+            count[i][j] = arr[i][j];
+            q = i;
+            if(i == 0)
+                for(k = 0; k <= j ; k++)
+                    if(count[i][j] > arr[q][k])
+                        count[i][j] = arr[q][k];
+            if(i != 0)
+                for(k = 0; k < N; k++){
+                    if(count[i][j] > arr[q][k])
+                        count[i][j] = arr[q][k];
+                    if(k == j){
+                        q -= 1;
+                        if(count[i][j] > arr[q][k])
+                            count[i][j] = arr[q][k];
+                    }
+                }
+        }
+    }
 }
 
 void print(float count[20][20], int N){
-	int nn = 1,i,j;
-		printf("___________________\n");
-		printf("|Number|i|j|result|\n");
-		printf("-------------------\n");
-		nn=1;
+	int i, j, nn = 1;
+		printf("─────────────────────\n");
+		printf("|Number|i|j|result  |\n");
+		printf("───────┴─┴─┴─────────\n");
 		for (i = 0; i < N; i++)
 			for (j = 0; j < N; j++){
-				printf("|%-6d|%d|%d|%6.f|\n",nn ,i+1, j+1, count[i][j]);
+				printf("|%-6d|%d|%d|%8.f|\n",nn ,i+1, j+1, count[i][j]);
+				printf("───────┴─┴─┴─────────\n");
 				nn++;
 			}
 		getch();
