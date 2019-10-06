@@ -15,23 +15,29 @@ print(count, N);
 getch();
 }
  
-void scan(float arr[20][20], int *N){
+void scan(float arr[20][20], int *N)
+{
 	int i, j;
 	printf("N = ");
 	scanf("%d", N);
-	for(i = 0; i < *N; i++){
+	for(i = 0; i < *N; i++)
+	{
 		printf("\n");
-		for(j = 0; j < *N; j++){
+		for(j = 0; j < *N; j++)
+		{
 			printf("arr[%d][%d] = ", i+1, j+1);
 			scanf("%f", &arr[i][j]);
 		}
 	}
 }
 
-void change(float arr[20][20], float count[20][20], int N){
+void change(float arr[20][20], float count[20][20], int N)
+{
     int i, j, q, k;
-    for(i = 0; i < N; i++){
-        for(j = 0; j < N; j++){
+    for(i = 0; i < N; i++)
+    {
+        for(j = 0; j < N; j++)
+	{
             count[i][j] = arr[i][j];
             q = i;
             if(i == 0)
@@ -39,10 +45,12 @@ void change(float arr[20][20], float count[20][20], int N){
                     if(count[i][j] > arr[q][k])
                         count[i][j] = arr[q][k];
             if(i != 0)
-                for(k = 0; k < N; k++){
+                for(k = 0; k < N; k++)
+		{
                     if(count[i][j] > arr[q][k])
                         count[i][j] = arr[q][k];
-                    if(k == j){
+                    if(k == j)
+		    {
                         q -= 1;
                         if(count[i][j] > arr[q][k])
                             count[i][j] = arr[q][k];
@@ -52,13 +60,15 @@ void change(float arr[20][20], float count[20][20], int N){
     }
 }
 
-void print(float count[20][20], int N){
+void print(float count[20][20], int N)
+{
 	int i, j, nn = 1;
 		printf("─────────────────────\n");
 		printf("|Number|i|j|result  |\n");
 		printf("───────┴─┴─┴─────────\n");
 		for (i = 0; i < N; i++)
-			for (j = 0; j < N; j++){
+			for (j = 0; j < N; j++)
+			{
 				printf("|%-6d|%d|%d|%8.f|\n",nn ,i+1, j+1, count[i][j]);
 				printf("───────┴─┴─┴─────────\n");
 				nn++;
