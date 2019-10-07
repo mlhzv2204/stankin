@@ -63,7 +63,7 @@ void change(float arr[20][20], float count[20][20], int N)
 void print(float count[20][20], int N)
 {
 	int i, j, nn = 1;
-		printf("─────────────────────\n");
+		printf("\n─────────────────────\n");
 		printf("|Number|i|j|result  |\n");
 		printf("───────┴─┴─┴─────────\n");
 		for (i = 0; i < N; i++)
