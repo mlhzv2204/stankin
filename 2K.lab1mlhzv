@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <conio.h>
  
-void scan(float[20][20],int*);
+int scan(float[20][20]);
 void change(float[20][20],float[20][20],int);
 void print(float[20][20],int);
  
@@ -9,26 +9,26 @@ void main(void)
 {
 int N;
 float arr[20][20], count[20][20];
-scan(arr, &N);
+N = scan(arr);
 change(arr, count, N);
 print(count, N);
-getch();
 }
  
-void scan(float arr[20][20], int *N)
+int scan(float arr[20][20])
 {
-	int i, j;
+	int i, j, N;
 	printf("N = ");
-	scanf("%d", N);
-	for(i = 0; i < *N; i++)
+	scanf("%d", &N);
+	for(i = 0; i < N; i++)
 	{
 		printf("\n");
-		for(j = 0; j < *N; j++)
+		for(j = 0; j < N; j++)
 		{
 			printf("arr[%d][%d] = ", i+1, j+1);
 			scanf("%f", &arr[i][j]);
 		}
 	}
+	return N;
 }
 
 void change(float arr[20][20], float count[20][20], int N)
