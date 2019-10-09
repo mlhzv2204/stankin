@@ -1,77 +1,201 @@
 #include <stdio.h>
 #include <conio.h>
- 
-int scan(float[20][20]);
-void change(float[20][20],float[20][20],int);
-void print(float[20][20],int);
- 
+#include <string.h>
+
+struct Video
+{
+	char CompanyName[20];
+	int ReleaseYear;
+	char CardName[8];
+	int NumberModel;
+};
+
+int Menu(void);
+int ScanArray(struct Video[20]);
+void PrintArray(int, struct Video[20]);
+int AddInfo(int, struct Video[20]);
+int DeleteInfo(int, struct Video[20]);
+
 void main(void)
 {
-int N;
-float arr[20][20], count[20][20];
-N = scan(arr);
-change(arr, count, N);
-print(count, N);
-}
- 
-int scan(float arr[20][20])
-{
-	int i, j, N;
-	printf("N = ");
-	scanf("%d", &N);
-	for(i = 0; i < N; i++)
-	{
-		printf("\n");
-		for(j = 0; j < N; j++)
+	int N, line = 0;
+	struct Video VideoCard[20];
+	while(N = Menu())
+		switch(N)
 		{
-			printf("arr[%d][%d] = ", i+1, j+1);
-			scanf("%f", &arr[i][j]);
+			case '0':
+				exit(1);
+			case '1':
+				line = ScanArray(VideoCard);
+				break;
+			case '2':
+				PrintArray(line, VideoCard);
+				break;
+			case '3':
+				line = AddInfo(line, VideoCard);
+				break;
+			case '4':
+				line = DeleteInfo(line, VideoCard);
+				break;
 		}
-	}
+}
+int Menu(void)
+{
+	int N = 0;
+	system("cls");
+	printf("______MENU______\n"
+		   "[1]-> Vvod massiva\n"
+		   "[2]Vivod massiva ->\n"
+		   "[3]Dobavlenie stroki\n"
+		   "[4]Ydalenie stroki\n"
+		   "[0]Exit\n"
+		   ">");
+	N = getch();
 	return N;
 }
-
-void change(float arr[20][20], float count[20][20], int N)
-{
-    int i, j, q, k;
-    for(i = 0; i < N; i++)
-    {
-        for(j = 0; j < N; j++)
+int ScanArray(struct Video VideoCard[20])
 	{
-            count[i][j] = arr[i][j];
-            q = i;
-            if(i == 0)
-                for(k = 0; k <= j ; k++)
-                    if(count[i][j] > arr[q][k])
-                        count[i][j] = arr[q][k];
-            if(i != 0)
-                for(k = 0; k < N; k++)
-		{
-                    if(count[i][j] > arr[q][k])
-                        count[i][j] = arr[q][k];
-                    if(k == j)
-		    {
-                        q -= 1;
-                        if(count[i][j] > arr[q][k])
-                            count[i][j] = arr[q][k];
-                    }
-                }
-        }
-    }
+	int i, line = 1;
+	system("cls");
+	printf("Vvod massiva\n");
+	printf("Kolichestvo zapoln9emih elementov = ");
+	scanf("%d", &line);
+	for(i = 0; i < line; i++)
+	{
+			printf("\nVideo card[%d]\n", i+1);
+			printf("CompanyName = ");
+			scanf("%s", &VideoCard[i].CompanyName);
+			printf("ReleaseYear = ");
+			scanf("%d", &VideoCard[i].ReleaseYear);
+			printf("CardName = ");
+			scanf("%s", &VideoCard[i].CardName);
+			printf("NumberModel = ");
+			scanf("%d", &VideoCard[i].NumberModel);
+		}
+	return line;
 }
-
-void print(float count[20][20], int N)
+void PrintArray(int line, struct Video VideoCard[20])
 {
-	int i, j, nn = 1;
-		printf("\n─────────────────────\n");
-		printf("|Number|i|j|result  |\n");
-		printf("───────┴─┴─┴─────────\n");
-		for (i = 0; i < N; i++)
-			for (j = 0; j < N; j++)
+	int i;
+	system("cls");
+	printf("Print DATABASE VideoCards\n");
+	printf("\n──────────────────────────────────────────────\n");
+	printf("|CompanyName|ReleaseYear|CardName|NumberModel|\n");
+	printf("────────────┴───────────┴────────┴────────────\n");
+
+	for(i = 0; i < line; i++)
+	{
+		printf("|%11s|%-11d|%-8s|%11d|\n", VideoCard[i].CompanyName, VideoCard[i].ReleaseYear, VideoCard[i].CardName, VideoCard[i].NumberModel);
+        printf("────────────┴───────────┴────────┴────────────\n");
+	}
+	getch();
+}
+int AddInfo(int line, struct Video VideoCard[20])
+{
+    system("cls");
+	printf("Dobavlenie information\n");
+	printf("CompanyName = ");
+	scanf("%s", &VideoCard[line].CompanyName);
+	printf("ReleaseYear = ");
+	scanf("%d", &VideoCard[line].ReleaseYear);
+	printf("CardName = ");
+	scanf("%s", &VideoCard[line].CardName);
+	printf("NumberModel = ");
+	scanf("%d", &VideoCard[line].NumberModel);
+	line++;
+	return line;
+}
+int DeleteInfo(int line, struct Video VideoCard[20])
+{
+    int point, i, k, KeyInt;
+	char KeyWord[20];
+	system("cls");
+	printf("Function Delete\n");
+	printf("Proizvesti udalenie po:\n"
+		   "[1]CompanyName\n"
+		   "[2]ReleaseYear\n"
+		   "[3]CardName\n"
+		   "[4]NumberModel\n"
+		   ">");
+	point = getch();
+	system("cls");
+	for(i = 0 ; i < line; i++)
+	{
+		switch(point){
+			case '1':
 			{
-				printf("|%-6d|%d|%d|%8.f|\n",nn ,i+1, j+1, count[i][j]);
-				printf("───────┴─┴─┴─────────\n");
-				nn++;
+				system("cls");
+				scanf("%19s", KeyWord);
+				if(strcmp(VideoCard[i].CompanyName, KeyWord) == 0)
+				{
+					k = i;
+					for(; k < line; k++)
+					{
+					strcpy(VideoCard[k].CompanyName, VideoCard[k+1].CompanyName);
+					VideoCard[k].ReleaseYear = VideoCard[k+1].ReleaseYear;
+					strcpy(VideoCard[k].CardName, VideoCard[k+1].CardName);
+					VideoCard[k].NumberModel = VideoCard[k+1].NumberModel;
+					}
+				--line;
+				i = -1;
+				}
 			}
-		getch();
+			break;
+			case '2':
+			{
+				scanf("%d", &KeyInt);
+				if(VideoCard[i].ReleaseYear == KeyInt)
+				{
+					k = i;
+					for(; k < line; k++)
+					{
+						strcpy(VideoCard[k].CompanyName, VideoCard[k+1].CompanyName);
+						VideoCard[k].ReleaseYear = VideoCard[k+1].ReleaseYear;
+						strcpy(VideoCard[k].CardName, VideoCard[k+1].CardName);
+						VideoCard[k].NumberModel = VideoCard[k+1].NumberModel;
+					}
+					--line;
+					i = -1;
+				}
+			}
+			break;
+			case '3':
+			{
+				system("cls");
+				scanf("%19s", KeyWord);
+				if(strcmp(VideoCard[i].CardName, KeyWord) == 0)
+				{
+					k = i;
+					for(; k < line; k++)
+					{
+					strcpy(VideoCard[k].CompanyName, VideoCard[k+1].CompanyName);
+					VideoCard[k].ReleaseYear = VideoCard[k+1].ReleaseYear;
+					strcpy(VideoCard[k].CardName, VideoCard[k+1].CardName);
+					VideoCard[k].NumberModel = VideoCard[k+1].NumberModel;
+					}
+				--line;
+				i = -1;
+				}
+			}
+			break;
+			case '4':
+			{
+				scanf("%d", &KeyInt);
+				if(VideoCard[i].NumberModel == KeyInt)
+				{
+					k = i;
+					for(; k < line; k++){
+						strcpy(VideoCard[k].CompanyName, VideoCard[k+1].CompanyName);
+						VideoCard[k].ReleaseYear = VideoCard[k+1].ReleaseYear;
+						strcpy(VideoCard[k].CardName, VideoCard[k+1].CardName);
+						VideoCard[k].NumberModel = VideoCard[k+1].NumberModel;
+					}
+					--line;
+					i = -1;
+				}
+			}
+			break;
+		}
+	}
+	return line;
 }
