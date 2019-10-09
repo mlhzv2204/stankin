@@ -2,71 +2,72 @@
 #include <conio.h>
 
 struct Video
-	{
-		char *CompanyName;
-		int ReleaseYear;
-		char *CardName;
-		float NumberModel;
-	};
+{
+	char CompanyName[20];
+	int ReleaseYear;
+	char CardName[20];
+	float NumberModel;
+};
 
-void Menu(void);
-int ScanArray(struct Video VideoCard[30]);
-void PrintArray(int, struct Video VideoCard[30]);
+int Menu(void);
+int ScanArray(struct Video[30]);
+void PrintArray(int, struct Video[30]);
 void AddInfo(void);
 void DeleteInfo(void);
 
-
 void main(void)
 {
-Menu();
-}
-
-void Menu(void)
-{
-	int N;
+	int N, line;
 	struct Video VideoCard[30];
-	struct Video *pVideo = &VideoCard[30];
-
-
-    printf("______MENU______\n");
-	printf("[1]-> Vvod massiva\n");
-	printf("[2]Vivod massiva ->\n");
-	printf("[3]Dobavlenie stroki\n");
-	printf("[4]Ydalenie stroki\n");
-	scanf("%d", &N);
-
-
-	switch(N) {
-		case 1:
-			N = ScanArray(&VideoCard[30]);
-			break;
-		case 2:
-			PrintArray(N, &VideoCard[30]);
-			break;
-		case 3:
-			AddInfo();
-			break;
-		case 4:
-			DeleteInfo();
-			break;
-		default:
-			{
-			system("cls");
-			printf("Ukazana9 function ne sujestvuet\n");
-            Menu();
+	while((N = Menu()) != 0)
+		switch(N) {
+			case '1':
+				line = ScanArray(VideoCard);
+				break;
+			case '2':
+				PrintArray(line, VideoCard);
+				break;
+			case '3':
+				AddInfo();
+				break;
+			case '4':
+				DeleteInfo();
+				break;
+			default:
+				{
+				system("cls");
+				printf("Ukazana9 function ne sujestvuet\n");
+				Menu();
 			}
+	}
+}
+int Menu (void)
+{
+  int N = 0;
+  system("cls");
+  while (N < '0' || N > '4')
+  {
+	printf("______MENU______\n"
+		   "[1]-> Vvod massiva\n"
+		   "[2]Vivod massiva ->\n"
+		   "[3]Dobavlenie stroki\n"
+		   "[4]Ydalenie stroki\n"
+		   ">");
+	N = getch();
+	printf("%c\n", N);
   }
+  return N;
 }
 
 int ScanArray(struct Video VideoCard[30]){
-	int i, N;
+	int i, line;
 	system("cls");
 	printf("Vvod massiva\n");
 	printf("Kolichestvo zapoln9emih elementov = ");
-	scanf("%d", &N);
-	for(i = 0; i < N; i++)
+	scanf("%d", &line);
+	for(i = 0; i < line; i++)
 	{
-			printf("\nVideo card[%d]\n", i);
+			printf("\nVideo card[%d]\n", i+1);
 			printf("CompanyName = ");
 			scanf("%s", &VideoCard[i].CompanyName);
 			printf("ReleaseYear = ");
@@ -76,38 +77,34 @@ int ScanArray(struct Video VideoCard[30]){
 			printf("NumberModel = ");
 			scanf("%f", &VideoCard[i].NumberModel);
 		}
-	Menu();
-	return N;
+	return line;
 }
 
-void PrintArray(int N, struct Video VideoCard[30]){
+void PrintArray(int line, struct Video VideoCard[30])
+{
 	int i;
 	system("cls");
 	printf("Vivod massiva\n");
 
-	for(i = 0; i < N; i++)
+	for(i = 0; i < line; i++)
 	{
-			printf("\nVideo card[%d]\n", i+1);
-			printf("CompanyName = %s\n", VideoCard[i].CompanyName);
-			printf("ReleaseYear = %d\n", VideoCard[i].ReleaseYear);
-			printf("CardName = %s\n", VideoCard[i].CardName);
-			printf("NumberModel = %f\n", VideoCard[i].NumberModel);
-		}
-
-	Menu();
+		printf("\nVideo card[%d]\n", i+1);
+		printf("CompanyName = %s\n", VideoCard[i].CompanyName);
+		printf("ReleaseYear = %d\n", VideoCard[i].ReleaseYear);
+		printf("CardName = %s\n", VideoCard[i].CardName);
+		printf("NumberModel = %f\n", VideoCard[i].NumberModel);
+	}
 	getch();
 }
 
 void AddInfo(){
 	system("cls");
 	printf("add info ogotvo\n");
-	Menu();
 	getch();
 }
 
 void DeleteInfo(){
 	system("cls");
 	printf("udaleno stroka\n");
-	Menu();
 	getch();
 }
