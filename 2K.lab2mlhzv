@@ -1,26 +1,32 @@
 #include <stdio.h>
 #include <conio.h>
+#include <string.h>
 
 struct Video
 {
 	char CompanyName[20];
 	int ReleaseYear;
-	char CardName[20];
-	float NumberModel;
+	char CardName[8];
+	int NumberModel;
 };
 
 int Menu(void);
-int ScanArray(struct Video[30]);
-void PrintArray(int, struct Video[30]);
-void AddInfo(void);
-void DeleteInfo(void);
+int ScanArray(struct Video[20]);
+void PrintArray(int, struct Video[20]);
+int AddInfo(int, struct Video[20]);
+int DeleteInfo(int, struct Video[20]);
+void DeleteLine(int *, struct Video[20], int *);
+void SaveDB(int, struct Video[20]);
+int OpenDB(struct Video[20]);
 
-void main(void)
-{
-	int N, line;
-	struct Video VideoCard[30];
-	while((N = Menu()) != 0)
-		switch(N) {
+void main(void){
+	int N, line = 0;
+	struct Video VideoCard[20];
+	while(N = Menu())
+		switch(N)
+		{
+			case '0':
+				exit(1);
 			case '1':
 				line = ScanArray(VideoCard);
 				break;
@@ -28,39 +34,36 @@ void main(void)
 				PrintArray(line, VideoCard);
 				break;
 			case '3':
-				AddInfo();
+				line = AddInfo(line, VideoCard);
 				break;
 			case '4':
-				DeleteInfo();
+				line = DeleteInfo(line, VideoCard);
 				break;
-			default:
-				{
-				system("cls");
-				printf("Ukazana9 function ne sujestvuet\n");
-				Menu();
-			}
-	}
+			case '5':
+				SaveDB(line, VideoCard);
+				break;
+			case '6':
+				line = OpenDB(VideoCard);
+				break;
+				}
 }
-int Menu (void)
-{
-  int N = 0;
-  system("cls");
-  while (N < '0' || N > '4')
-  {
+int Menu(void){
+	int N = 0;
+	system("cls");
 	printf("______MENU______\n"
 		   "[1]-> Vvod massiva\n"
 		   "[2]Vivod massiva ->\n"
 		   "[3]Dobavlenie stroki\n"
 		   "[4]Ydalenie stroki\n"
+		   "[5]Save DB\n"
+		   "[6]Open DB\n"
+		   "[0]Exit\n"
 		   ">");
 	N = getch();
-	printf("%c\n", N);
-  }
-  return N;
+	return N;
 }
-
-int ScanArray(struct Video VideoCard[30]){
-	int i, line;
+int ScanArray(struct Video VideoCard[20]){
+	int i, line = 1;
 	system("cls");
 	printf("Vvod massiva\n");
 	printf("Kolichestvo zapoln9emih elementov = ");
@@ -75,36 +78,137 @@ int ScanArray(struct Video VideoCard[30]){
 			printf("CardName = ");
 			scanf("%s", &VideoCard[i].CardName);
 			printf("NumberModel = ");
-			scanf("%f", &VideoCard[i].NumberModel);
+			scanf("%d", &VideoCard[i].NumberModel);
+		}
+	return line;
+}
+void PrintArray(int line, struct Video VideoCard[20]){
+	int i;
+	system("cls");
+	printf("Print DATABASE VideoCards\n");
+	printf("\n──────────────────────────────────────────────\n");
+	printf("|CompanyName|ReleaseYear|CardName|NumberModel|\n");
+	printf("────────────┴───────────┴────────┴────────────\n");
+
+	for(i = 0; i < line; i++)
+	{
+		printf("|%11s|%-11d|%-8s|%11d|\n", VideoCard[i].CompanyName, VideoCard[i].ReleaseYear, VideoCard[i].CardName, VideoCard[i].NumberModel);
+        printf("────────────┴───────────┴────────┴────────────\n");
+	}
+	getch();
+}
+int AddInfo(int line, struct Video VideoCard[20]){
+	system("cls");
+	printf("Dobavlenie information\n");
+	printf("CompanyName = ");
+	scanf("%s", &VideoCard[line].CompanyName);
+	printf("ReleaseYear = ");
+	scanf("%d", &VideoCard[line].ReleaseYear);
+	printf("CardName = ");
+	scanf("%s", &VideoCard[line].CardName);
+	printf("NumberModel = ");
+	scanf("%d", &VideoCard[line].NumberModel);
+	line++;
+	return line;
+}
+int DeleteInfo(int line, struct Video VideoCard[20]){
+	int point, i, KeyInt;
+	char KeyWord[20];
+	system("cls");
+	printf("Function Delete\n");
+	printf("Proizvesti udalenie po:\n"
+		   "[1]CompanyName\n"
+		   "[2]ReleaseYear\n"
+		   "[3]CardName\n"
+		   "[4]NumberModel\n"
+		   ">");
+	point = getch();
+	system("cls");
+		switch(point){
+				case '1':
+				{
+				scanf("%19s", KeyWord);
+				for(i = 0 ; i < line; i++)
+					if(strcmp(VideoCard[i].CompanyName, KeyWord) == 0)
+						DeleteLine(&line, VideoCard, &i);
+				}
+				break;
+				case '2':
+				{
+				scanf("%d", &KeyInt);
+				for(i = 0 ; i < line; i++)
+					if(VideoCard[i].ReleaseYear == KeyInt)
+						DeleteLine(&line, VideoCard, &i);
+				}
+				break;
+				case '3':
+				{
+				scanf("%19s", KeyWord);
+				for(i = 0 ; i < line; i++)
+					if(strcmp(VideoCard[i].CardName, KeyWord) == 0)
+						DeleteLine(&line, VideoCard, &i);
+				}
+				break;
+				case '4':
+				{
+					scanf("%d", &KeyInt);
+				for(i = 0 ; i < line; i++)
+					if(VideoCard[i].NumberModel == KeyInt)
+						DeleteLine(&line, VideoCard, &i);
+				}
+				break;
 		}
 	return line;
 }
 
-void PrintArray(int line, struct Video VideoCard[30])
-{
-	int i;
-	system("cls");
-	printf("Vivod massiva\n");
-
-	for(i = 0; i < line; i++)
+void DeleteLine(int *line, struct Video VideoCard[20], int *i){
+	for(; *i < *line; *i += 1)
 	{
-		printf("\nVideo card[%d]\n", i+1);
-		printf("CompanyName = %s\n", VideoCard[i].CompanyName);
-		printf("ReleaseYear = %d\n", VideoCard[i].ReleaseYear);
-		printf("CardName = %s\n", VideoCard[i].CardName);
-		printf("NumberModel = %f\n", VideoCard[i].NumberModel);
+	strcpy(VideoCard[*i].CompanyName, VideoCard[*i+1].CompanyName);
+	VideoCard[*i].ReleaseYear = VideoCard[*i+1].ReleaseYear;
+	strcpy(VideoCard[*i].CardName, VideoCard[*i+1].CardName);
+	VideoCard[*i].NumberModel = VideoCard[*i+1].NumberModel;
 	}
-	getch();
+	*line -= 1;
+	*i = -1;
 }
 
-void AddInfo(){
-	system("cls");
-	printf("add info ogotvo\n");
-	getch();
+void SaveDB(int line, struct Video VideoCard[20])
+{
+  FILE *F;
+  int i;
+
+  if ((F = fopen("DBVideoCards.dat", "wb")) == NULL)
+  {
+	fprintf(stderr, "Невозможно открыть для записи файл 'DBVideoCards.dat'\n");
+    return;
+  }
+
+  for (i = 0; i < line; i++)
+	fwrite(VideoCard+i, sizeof(VideoCard), 1, F);
+
+  fclose(F);
 }
 
-void DeleteInfo(){
-	system("cls");
-	printf("udaleno stroka\n");
-	getch();
+int OpenDB(struct Video VideoCard[20])
+{
+  FILE *F;
+  int i, lSize, line;
+
+  if ((F = fopen("DBVideoCards.dat", "rb")) == NULL)
+  {
+	fprintf(stderr, "Невозможно открыть для записи файл 'DBVideoCards.dat'\n");
+    return;
+  }
+  fseek(F, 0, SEEK_END);
+  lSize = ftell(F);
+  line = lSize / sizeof(VideoCard);
+  rewind(F);
+
+
+  for (i = 0; i < line; i++)
+	fread(VideoCard+i, sizeof(VideoCard), 1, F);
+
+  fclose(F);
+  return line;
 }
