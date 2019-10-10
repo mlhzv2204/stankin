@@ -19,6 +19,7 @@ void DeleteLine(int *, struct Video[20], int *);
 void SaveDB(int, struct Video[20]);
 int OpenDB(struct Video[20]);
 
+
 void main(void){
 	int N, line = 0;
 	struct Video VideoCard[20];
@@ -46,18 +47,19 @@ void main(void){
 				line = OpenDB(VideoCard);
 				break;
 				}
+	system("pause");
 }
 int Menu(void){
 	int N = 0;
 	system("cls");
-	printf("______MENU______\n"
-		   "[1]-> Vvod massiva\n"
-		   "[2]Vivod massiva ->\n"
-		   "[3]Dobavlenie stroki\n"
-		   "[4]Ydalenie stroki\n"
-		   "[5]Save DB\n"
-		   "[6]Open DB\n"
-		   "[0]Exit\n"
+	printf("--------MENU-------\n"
+		   "[1]SCAN_INFO    [1]\n"
+		   "[2]PRINT_INFO   [2]\n"
+		   "[3]ADD_STRING   [3]\n"
+		   "[4]DELETE_STRING[4]\n"
+		   "[5]SAVE_IN_DB   [5]\n"
+		   "[6]OPEN_FROM_DB [6]\n"
+		   "[0]    EXIT     [0]\n"
 		   ">");
 	N = getch();
 	return N;
@@ -65,9 +67,12 @@ int Menu(void){
 int ScanArray(struct Video VideoCard[20]){
 	int i, line = 1;
 	system("cls");
-	printf("Vvod massiva\n");
-	printf("Kolichestvo zapoln9emih elementov = ");
+	printf("->[1]SCAN_INFO\n"
+		   "  [0]EXIT\n");
+	printf("NUMBER OF ELEMTS = ");
 	scanf("%d", &line);
+	if(line == 0)
+    	main();
 	for(i = 0; i < line; i++)
 	{
 			printf("\nVideo card[%d]\n", i+1);
@@ -85,10 +90,11 @@ int ScanArray(struct Video VideoCard[20]){
 void PrintArray(int line, struct Video VideoCard[20]){
 	int i;
 	system("cls");
-	printf("Print DATABASE VideoCards\n");
-	printf("\n──────────────────────────────────────────────\n");
-	printf("|CompanyName|ReleaseYear|CardName|NumberModel|\n");
-	printf("────────────┴───────────┴────────┴────────────\n");
+	printf("->[2]PRINT_INFO\n"
+		   "  [ANY]EXIT\n"
+		   "\n──────────────────────────────────────────────\n"
+		   "|CompanyName|ReleaseYear|CardName|NumberModel|\n"
+	       "────────────┴───────────┴────────┴────────────\n");
 
 	for(i = 0; i < line; i++)
 	{
@@ -99,14 +105,14 @@ void PrintArray(int line, struct Video VideoCard[20]){
 }
 int AddInfo(int line, struct Video VideoCard[20]){
 	system("cls");
-	printf("Dobavlenie information\n");
-	printf("CompanyName = ");
+	printf("->[3]ADD_STRING\n"
+		   "\nCompany Name = ");
 	scanf("%s", &VideoCard[line].CompanyName);
-	printf("ReleaseYear = ");
+	printf("Release Year = ");
 	scanf("%d", &VideoCard[line].ReleaseYear);
-	printf("CardName = ");
+	printf("Card Name = ");
 	scanf("%s", &VideoCard[line].CardName);
-	printf("NumberModel = ");
+	printf("Number Model = ");
 	scanf("%d", &VideoCard[line].NumberModel);
 	line++;
 	return line;
@@ -115,12 +121,14 @@ int DeleteInfo(int line, struct Video VideoCard[20]){
 	int point, i, KeyInt;
 	char KeyWord[20];
 	system("cls");
-	printf("Function Delete\n");
-	printf("Proizvesti udalenie po:\n"
-		   "[1]CompanyName\n"
-		   "[2]ReleaseYear\n"
-		   "[3]CardName\n"
-		   "[4]NumberModel\n"
+	printf("->[4]DELETE_STRING\n"
+		   "  [0]EXIT\n"
+		   "\nSELECT_A_CATEGORY\n"
+		   "[1]Company Name\n"
+		   "[2]Release Year\n"
+		   "[3]Card Name\n"
+		   "[4]Number Model\n"
+		   "[5]Number String\n"
 		   ">");
 	point = getch();
 	system("cls");
@@ -155,6 +163,13 @@ int DeleteInfo(int line, struct Video VideoCard[20]){
 				for(i = 0 ; i < line; i++)
 					if(VideoCard[i].NumberModel == KeyInt)
 						DeleteLine(&line, VideoCard, &i);
+				}
+				break;
+				case '5':
+				{
+					scanf("%d", &KeyInt);
+                    --KeyInt;
+					DeleteLine(&line, VideoCard, &KeyInt);
 				}
 				break;
 		}
