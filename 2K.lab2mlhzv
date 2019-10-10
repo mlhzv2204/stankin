@@ -185,7 +185,7 @@ void SaveDB(int line, struct Video VideoCard[20])
   }
 
   for (i = 0; i < line; i++)
-	fwrite(VideoCard+i, sizeof(VideoCard), 1, F);
+	fwrite(VideoCard+i, sizeof(struct Video), 1, F);
 
   fclose(F);
 }
@@ -202,12 +202,12 @@ int OpenDB(struct Video VideoCard[20])
   }
   fseek(F, 0, SEEK_END);
   lSize = ftell(F);
-  line = lSize / sizeof(VideoCard);
+  line = lSize / sizeof(struct Video);
   rewind(F);
 
 
   for (i = 0; i < line; i++)
-	fread(VideoCard+i, sizeof(VideoCard), 1, F);
+	fread(VideoCard+i, sizeof(struct Video), 1, F);
 
   fclose(F);
   return line;
