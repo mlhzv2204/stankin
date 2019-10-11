@@ -18,7 +18,8 @@ int DeleteInfo(int, struct Video[20]);
 void DeleteLine(int *, struct Video[20], int *);
 void SaveDB(int, struct Video[20]);
 int OpenDB(struct Video[20]);
-
+void SearchInfo(struct Video[20], int);
+void DisplayLine(struct Video[20], int, int *);
 
 void main(void){
 	int N, line = 0;
@@ -46,9 +47,12 @@ void main(void){
 			case '6':
 				line = OpenDB(VideoCard);
 				break;
-				}
-	system("pause");
+			case '7':
+				SearchInfo(VideoCard, line);
+				break;
+        }
 }
+
 int Menu(void){
 	int N = 0;
 	system("cls");
@@ -59,7 +63,8 @@ int Menu(void){
 		   "[4]DELETE_STRING[4]\n"
 		   "[5]SAVE_IN_DB   [5]\n"
 		   "[6]OPEN_FROM_DB [6]\n"
-		   "[0]    EXIT     [0]\n"
+		   "[7]SEARCH       [7]\n"
+		   "[0]     EXIT    [0]\n"
 		   ">");
 	N = getch();
 	return N;
@@ -196,13 +201,15 @@ void SaveDB(int line, struct Video VideoCard[20])
   if ((F = fopen("DBVideoCards.dat", "wb")) == NULL)
   {
 	fprintf(stderr, "Невозможно открыть для записи файл 'DBVideoCards.dat'\n");
-    return;
+	return;
   }
 
   for (i = 0; i < line; i++)
 	fwrite(VideoCard+i, sizeof(struct Video), 1, F);
 
   fclose(F);
+  printf("SUCCESS_SAVING");
+  getch();
 }
 
 int OpenDB(struct Video VideoCard[20])
@@ -225,5 +232,80 @@ int OpenDB(struct Video VideoCard[20])
 	fread(VideoCard+i, sizeof(struct Video), 1, F);
 
   fclose(F);
+  printf("SUCCESS_OPENNING");
+  getch();
   return line;
+}
+
+void SearchInfo(struct Video VideoCard[20], int line){
+	int point, i, KeyInt, k = 0;
+	char KeyWord[20];
+	system("cls");
+	printf("->[7]SEARCH\n"
+		   "  [0]EXIT\n"
+		   "\nSELECT_A_CATEGORY\n"
+		   "[1]Company Name\n"
+		   "[2]Release Year\n"
+		   "[3]Card Name\n"
+		   "[4]Number Model\n"
+		   "[5]Number String\n"
+		   ">");
+	point = getch();
+	system("cls");
+		switch(point){
+				case '0':
+					Menu();
+				break;
+				case '1':
+				{
+				scanf("%19s", KeyWord);
+				for(i = 0 ; i < line; i++)
+					if(strcmp(VideoCard[i].CompanyName, KeyWord) == 0)
+						DisplayLine(VideoCard, i, &k);
+				}
+				break;
+				case '2':
+				{
+				scanf("%d", &KeyInt);
+				for(i = 0 ; i < line; i++)
+					if(VideoCard[i].ReleaseYear == KeyInt)
+						DisplayLine(VideoCard, i, &k);
+				}
+				break;
+				case '3':
+				{
+				scanf("%19s", KeyWord);
+				for(i = 0 ; i < line; i++)
+					if(strcmp(VideoCard[i].CardName, KeyWord) == 0)
+						DisplayLine(VideoCard, i, &k);
+				}
+				break;
+				case '4':
+				{
+					scanf("%d", &KeyInt);
+				for(i = 0 ; i < line; i++)
+					if(VideoCard[i].NumberModel == KeyInt)
+						DisplayLine(VideoCard, i, &k);
+				}
+				break;
+				case '5':
+				{
+					scanf("%d", &KeyInt);
+					--KeyInt;
+					DisplayLine(VideoCard, KeyInt, &k);
+				}
+				break;
+		}
+	getch();
+}
+
+void DisplayLine(struct Video VideoCard[20], int i, int *k){
+	if(*k == 0){
+		printf("\n──────────────────────────────────────────────\n"
+			"|CompanyName|ReleaseYear|CardName|NumberModel|\n"
+			"────────────┴───────────┴────────┴────────────\n");
+		*k = 1;
+	}
+	printf("|%11s|%-11d|%-8s|%11d|\n", VideoCard[i].CompanyName, VideoCard[i].ReleaseYear, VideoCard[i].CardName, VideoCard[i].NumberModel);
+	printf("────────────┴───────────┴────────┴────────────\n");
 }
