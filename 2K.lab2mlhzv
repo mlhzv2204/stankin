@@ -20,6 +20,8 @@ void SaveDB(int, struct Video[20]);
 int OpenDB(struct Video[20]);
 void SearchInfo(struct Video[20], int);
 void DisplayLine(struct Video[20], int, int *);
+void SortInfo(struct Video[20], int);
+void BubbleSort(struct Video[20], int);
 
 void main(void){
 	int N, line = 0;
@@ -50,7 +52,10 @@ void main(void){
 			case '7':
 				SearchInfo(VideoCard, line);
 				break;
-        }
+			case '8':
+				SortInfo(VideoCard, line);
+				break;
+		}
 }
 
 int Menu(void){
@@ -64,6 +69,7 @@ int Menu(void){
 		   "[5]SAVE_IN_DB   [5]\n"
 		   "[6]OPEN_FROM_DB [6]\n"
 		   "[7]SEARCH       [7]\n"
+		   "[8]SORT         [8]\n"
 		   "[0]     EXIT    [0]\n"
 		   ">");
 	N = getch();
@@ -97,14 +103,14 @@ void PrintArray(int line, struct Video VideoCard[20]){
 	system("cls");
 	printf("->[2]PRINT_INFO\n"
 		   "  [ANY]EXIT\n"
-		   "\n──────────────────────────────────────────────\n"
-		   "|CompanyName|ReleaseYear|CardName|NumberModel|\n"
-	       "────────────┴───────────┴────────┴────────────\n");
+		   "\n──────────────────────────────────────────────────\n"
+		   "| N |CompanyName|ReleaseYear|CardName|NumberModel|\n"
+		   "────┴───────────┴───────────┴────────┴────────────\n");
 
 	for(i = 0; i < line; i++)
 	{
-		printf("|%11s|%-11d|%-8s|%11d|\n", VideoCard[i].CompanyName, VideoCard[i].ReleaseYear, VideoCard[i].CardName, VideoCard[i].NumberModel);
-        printf("────────────┴───────────┴────────┴────────────\n");
+		printf("|%3d|%11s|%-11d|%-8s|%11d|\n", i+1, VideoCard[i].CompanyName, VideoCard[i].ReleaseYear, VideoCard[i].CardName, VideoCard[i].NumberModel);
+        printf("────┴───────────┴───────────┴────────┴────────────\n");
 	}
 	getch();
 }
@@ -173,7 +179,7 @@ int DeleteInfo(int line, struct Video VideoCard[20]){
 				case '5':
 				{
 					scanf("%d", &KeyInt);
-                    --KeyInt;
+					--KeyInt;
 					DeleteLine(&line, VideoCard, &KeyInt);
 				}
 				break;
@@ -233,7 +239,7 @@ int OpenDB(struct Video VideoCard[20])
 
   fclose(F);
   printf("SUCCESS_OPENNING");
-  getch();
+  PrintArray(line, VideoCard);
   return line;
 }
 
@@ -308,4 +314,170 @@ void DisplayLine(struct Video VideoCard[20], int i, int *k){
 	}
 	printf("|%11s|%-11d|%-8s|%11d|\n", VideoCard[i].CompanyName, VideoCard[i].ReleaseYear, VideoCard[i].CardName, VideoCard[i].NumberModel);
 	printf("────────────┴───────────┴────────┴────────────\n");
+}
+
+void SortInfo(struct Video VideoCard[20], int line)
+{
+	int point, i, j;
+	system("cls");
+	printf("->[8]SORT\n"
+		   "  [0]EXIT\n"
+		   "\nSELECT_A_CATEGORY\n"
+		   "[1]Company Name\n"
+		   "[2]Release Year\n"
+		   "[3]Card Name\n"
+		   "[4]Number Model\n"
+		   ">");
+	point = getch();
+	system("cls");
+	printf("SORT_BY \n");
+	switch(point)
+	{
+		case '0':
+			Menu();
+			break;
+		case '1':
+			printf("[1]Company Name\n");
+			break;
+		case '2':
+			printf("[2]Release Year\n");
+			break;
+		case '3':
+			printf("[3]Card Name\n");
+			break;
+		case '4':
+			printf("[4]Number Model\n");
+			break;
+	}
+	printf("\n->SORTING_METHOD\n"
+		   "\nSELECT_A_CATEGORY\n"
+		   "[1]INCREASE\n"
+		   "[2]DECREASE\n"
+		   ">");
+	switch(point)
+	{
+		case '1':
+		{
+				point = getch();
+				system("cls");
+				switch(point)
+				{
+					case '1':
+					{
+						for (i = line - 1; i > 0; i--)
+							for (j = 0; j < i; j++)
+							{
+							if(strcmp(VideoCard[j].CompanyName, VideoCard[j+1].CompanyName) > 0)
+							BubbleSort(VideoCard, j);
+							}
+					}
+					break;
+					case '2':
+					{
+						for (i = line - 1; i > 0; i--)
+							for (j = 0; j < i; j++)
+							{
+							if(strcmp(VideoCard[j].CompanyName, VideoCard[j+1].CompanyName) < 0)
+							BubbleSort(VideoCard, j);
+							}
+					}
+					break;
+				}
+		}
+				break;
+		case '2':
+		{
+				point = getch();
+				system("cls");
+				switch(point)
+				{
+					case '1':
+					{
+					for (i = line - 1; i > 0; i--)
+						for (j = 0; j < i; j++)
+						{
+						if(VideoCard[j].ReleaseYear > VideoCard[j+1].ReleaseYear)
+						BubbleSort(VideoCard, j);
+						}
+					}
+					break;
+					case '2':
+					{
+					for (i = line - 1; i > 0; i--)
+						for (j = 0; j < i; j++)
+						{
+						if(VideoCard[j].ReleaseYear < VideoCard[j+1].ReleaseYear)
+						BubbleSort(VideoCard, j);
+						}
+					}
+					break;
+				}
+		}
+				break;
+		case '3':
+		{
+				point = getch();
+				system("cls");
+				switch(point)
+				{
+					case '1':
+					{
+					for (i = line - 1; i > 0; i--)
+						for (j = 0; j < i; j++)
+						{
+						if(strcmp(VideoCard[j].CardName, VideoCard[j+1].CardName) > 0)
+						BubbleSort(VideoCard, j);
+						}
+					}
+					break;
+					case '2':
+					{
+					for (i = line - 1; i > 0; i--)
+						for (j = 0; j < i; j++)
+						{
+						if(strcmp(VideoCard[j].CardName, VideoCard[j+1].CardName) < 0)
+						BubbleSort(VideoCard, j);
+						}
+					}
+					break;
+				}
+		}
+				break;
+		case '4':
+		{
+				point = getch();
+				system("cls");
+				switch(point)
+				{
+					case '1':
+					{
+					for (i = line - 1; i > 0; i--)
+						for (j = 0; j < i; j++)
+						{
+						if(VideoCard[j].NumberModel > VideoCard[j+1].NumberModel)
+						BubbleSort(VideoCard, j);
+						}
+					}
+					break;
+					case '2':
+					{
+					for (i = line - 1; i > 0; i--)
+						for (j = 0; j < i; j++)
+						{
+						if(VideoCard[j].NumberModel < VideoCard[j+1].NumberModel)
+						BubbleSort(VideoCard, j);}
+					}
+					break;
+				}
+				break;
+		}
+	}
+	PrintArray(line, VideoCard);
+}
+
+void BubbleSort(struct Video VideoCard[20], int j)
+{
+	struct Video Temp = VideoCard[j];
+	VideoCard[j] = VideoCard[j+1];
+	VideoCard[j+1] = Temp;
 }
