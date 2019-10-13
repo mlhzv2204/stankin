@@ -244,7 +244,7 @@ int OpenDB(struct Video VideoCard[20])
 }
 
 void SearchInfo(struct Video VideoCard[20], int line){
-	int point, i, KeyInt, k = 0;
+	int point, i, KeyInt, coincidence = 0, k = 0;
 	char KeyWord[20];
 	system("cls");
 	printf("->[7]SEARCH\n"
@@ -267,7 +267,10 @@ void SearchInfo(struct Video VideoCard[20], int line){
 				scanf("%19s", KeyWord);
 				for(i = 0 ; i < line; i++)
 					if(strcmp(VideoCard[i].CompanyName, KeyWord) == 0)
+					{
 						DisplayLine(VideoCard, i, &k);
+						coincidence = 1;
+					}
 				}
 				break;
 				case '2':
@@ -275,7 +278,10 @@ void SearchInfo(struct Video VideoCard[20], int line){
 				scanf("%d", &KeyInt);
 				for(i = 0 ; i < line; i++)
 					if(VideoCard[i].ReleaseYear == KeyInt)
+					{
 						DisplayLine(VideoCard, i, &k);
+						coincidence = 1;
+					}
 				}
 				break;
 				case '3':
@@ -283,26 +289,41 @@ void SearchInfo(struct Video VideoCard[20], int line){
 				scanf("%19s", KeyWord);
 				for(i = 0 ; i < line; i++)
 					if(strcmp(VideoCard[i].CardName, KeyWord) == 0)
+					{
 						DisplayLine(VideoCard, i, &k);
+						coincidence = 1;
+					}
 				}
 				break;
 				case '4':
 				{
 					scanf("%d", &KeyInt);
-				for(i = 0 ; i < line; i++)
-					if(VideoCard[i].NumberModel == KeyInt)
-						DisplayLine(VideoCard, i, &k);
+					for(i = 0 ; i < line; i++)
+						if(VideoCard[i].NumberModel == KeyInt)
+						{
+							DisplayLine(VideoCard, i, &k);
+							coincidence = 1;
+						}
 				}
 				break;
 				case '5':
 				{
 					scanf("%d", &KeyInt);
 					--KeyInt;
-					DisplayLine(VideoCard, KeyInt, &k);
+					if(KeyInt < line)
+						DisplayLine(VideoCard, KeyInt, &k);
+					else
+						coincidence = 1;
 				}
 				break;
 		}
-	getch();
+	if (coincidence == 0)
+	{
+		printf("NO_MATCHES_FOUND\n");
+		getch();
+		SearchInfo(VideoCard, line);
+	}
+getch();
 }
 
 void DisplayLine(struct Video VideoCard[20], int i, int *k){
