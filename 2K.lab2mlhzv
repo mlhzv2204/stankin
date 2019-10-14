@@ -22,6 +22,7 @@ void SearchInfo(struct Video[20], int);
 void DisplayLine(struct Video[20], int, int *);
 void SortInfo(struct Video[20], int);
 void BubbleSort(struct Video[20], int);
+void CorrectString(struct Video[20], int);
 
 void main(void){
 	int N, line = 0;
@@ -70,6 +71,12 @@ void main(void){
 				SortInfo(VideoCard, line);
 			}
 				break;
+			case '9':
+        	{	if(line == 0)
+					break;
+				CorrectString(VideoCard, line);
+			}
+				break;
 		}
 }
 
@@ -93,6 +100,7 @@ int Menu(int line){
 			   "[6]OPEN_FROM_DB [6]\n"
 			   "[7]SEARCH       [7]\n"
 			   "[8]SORT         [8]\n"
+			   "[9]CORRECTION   [9]\n"
 			   "[0]     EXIT    [0]\n"
 			   ">");
 	N = getch();
@@ -109,9 +117,9 @@ int ScanArray(struct Video VideoCard[20]){
 	{
 		printf("Data entry incorrect. Try again:\n");
 		while(getchar() != '\n');
-    }
+	}
 	if(line == 0)
-    	main();
+		main();
 	for(i = 0; i < line; i++)
 	{
 		printf("\nVIDEO_CARD[%d]\n", i+1);
@@ -685,4 +693,48 @@ void BubbleSort(struct Video VideoCard[20], int j)
 	struct Video Temp = VideoCard[j];
 	VideoCard[j] = VideoCard[j+1];
 	VideoCard[j+1] = Temp;
+}
+
+void CorrectString(struct Video VideoCard[20], int line)
+{
+	int number;
+	system("cls");
+	printf("->[9]CORRECTION\n"
+		   "  [0]EXIT\n"
+		   "\nSELECT_A_STRING_FOR_CORRECTION\n"
+		   ">");
+	while((scanf("%d",&number)) != 1 )
+	{
+		printf("Data entry incorrect. Try again:\n");
+		while(getchar() != '\n');
+	}
+	if(number == 0)
+		main();
+	number--;
+	printf("\nVIDEO_CARD[%d]\n", number+1);
+	printf("\nCOMPANY NAME\nBefore: %s\nNow:    ", VideoCard[number].CompanyName);
+	while((scanf("%20s",&VideoCard[number].CompanyName)) != 1 )
+	{
+			printf("Data entry incorrect. Try again:\n");
+			while(getchar() != '\n');
+	}
+	printf("\nRELEASE YEAR\nBefore: %d\nNow:     ", VideoCard[number].ReleaseYear);
+	while((scanf("%d",&VideoCard[number].ReleaseYear)) != 1 )
+	{
+			printf("Data entry incorrect. Try again:\n");
+			while(getchar() != '\n');
+	}
+	printf("\nCARD NAME\nBefore: %s\nNow:    ", VideoCard[number].CardName);
+	while((scanf("%8s",&VideoCard[number].CardName)) != 1 )
+	{
+			printf("Data entry incorrect. Try again:\n");
+			while(getchar() != '\n');
+	}
+	printf("\nNUMBER MODEL\nBefore: %d\nNow:     ", VideoCard[number].NumberModel);
+	while((scanf("%d",&VideoCard[number].NumberModel)) != 1 )
+	{
+			printf("Data entry incorrect. Try again:\n");
+			while(getchar() != '\n');
+	}
+PrintArray(line, VideoCard);
 }
