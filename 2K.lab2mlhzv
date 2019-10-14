@@ -70,7 +70,7 @@ int Menu(void){
 		   "[6]OPEN_FROM_DB [6]\n"
 		   "[7]SEARCH       [7]\n"
 		   "[8]SORT         [8]\n"
-		   "[0]     EXIT    [0]\n"
+		   "[0]EXIT         [0]\n"
 		   ">");
 	N = getch();
 	return N;
@@ -80,7 +80,7 @@ int ScanArray(struct Video VideoCard[20]){
 	system("cls");
 	printf("->[1]SCAN_INFO\n"
 		   "  [0]EXIT\n");
-	printf("NUMBER OF ELEMTS = ");
+	printf("NUMBER OF ELEMENTS = ");
 	scanf("%d", &line);
 	if(line == 0)
     	main();
