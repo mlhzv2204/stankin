@@ -1,0 +1,209 @@
+*.cpp
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit2.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm2 *Form2;
+//---------------------------------------------------------------------------
+__fastcall TForm2::TForm2(TComponent* Owner)
+	: TForm(Owner)
+{
+	Label3->Caption = "15. Дана матрица N x M. В тех столбцах, где четное количество \n"
+					  "элементов, делящихся на 7, заменить наибольший элемент нулем, \n"
+					  "после чего вывести получившуюся матрицу на экран";
+}
+
+void __fastcall TForm2::Edit1KeyUp(TObject *Sender, WORD &Key,TShiftState Shift)
+{
+	int N, M;
+	// Убираем видимость таблиц
+	StringGrid1->Visible = false;
+	StringGrid2->Visible = false;
+	// Поле с количеством строк пустое?
+	if(Edit1->Text.IsEmpty())
+		return;
+	// Поле с количеством стобцов пустое?
+	if(Edit2->Text.IsEmpty())
+		return;
+	// Проверка на корректный ввод количества строк и столбцов одновременно
+	if((TryStrToInt(Edit1->Text , N) == 0) && (TryStrToInt(Edit2->Text , M) == 0) || ((N < 2 || N > 8) && (M < 2 || M > 8)))
+	{
+		Edit1->Color = (TColor)RGB(255,128,128);
+		Edit2->Color = (TColor)RGB(255,128,128);
+		ShowMessage("Введите корректное кол-во строк и столбцов");
+		return;
+	}
+	else
+	{
+		Edit1->Color = clWindow;
+		Edit2->Color = clWindow;
+	}
+	// Проверка на корректный ввод количества строк
+	if((TryStrToInt(Edit1->Text , N) == 0) || (N < 2 || N > 8))
+	{
+		Edit1->Color = (TColor)RGB(255,128,128);
+		ShowMessage("Введите корректное кол-во строк");
+		return;
+	}
+	else
+		Edit1->Color = clWindow;
+	// Проверка на корректный ввод количества столбцов
+	if((TryStrToInt(Edit2->Text , M) == 0) || (M < 2 || M > 8))
+	{
+		Edit2->Color = (TColor)RGB(255,128,128);
+		ShowMessage("Введите корректное кол-во столбцов");
+		return;
+	}
+	else
+		Edit2->Color = clWindow;
+	// Присваеваем 1 таблице значения количества строк и столбцов
+	StringGrid1->RowCount = N;
+	StringGrid1->ColCount = M;
+    // Присваеваем 2 таблице значения количества строк и столбцов
+	StringGrid2->RowCount = StringGrid1->RowCount;
+	StringGrid2->ColCount = StringGrid1->ColCount;
+	// Адаптация ширины строк и столбцов под заданный размер всей таблицы
+	StringGrid1->DefaultColWidth = ((StringGrid1->Width-5) / M) - 1;
+	StringGrid1->DefaultRowHeight = ((StringGrid1->Height-5) / N) - 1;
+	// Передача этих же значений во вторую таблицу
+	StringGrid2->DefaultColWidth = StringGrid1->DefaultColWidth;
+	StringGrid2->DefaultRowHeight = StringGrid1->DefaultRowHeight;
+	// Включение видимости обеих таблиц
+	StringGrid1->Visible = true;
+}
+
+void __fastcall TForm2::StringGrid1KeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+	int N, M, i, j;
+	int MaxNumberColumn; // Максимальное число в столбце
+	int AmountOfNumbers; // Количество чисел кратных 7
+	int NoMatter; // Число "затычка" для TryStrToInt при работе с таблицей
+	int VoidValueInGrid = 0; // Число пустых ячеек таблицы
+	// Запись в переменные N и M количества столбцов и строк, для удобной работы
+	N = StringGrid1->RowCount;
+	M = StringGrid1->ColCount;
+	// Скрытие Лейбла, отвечающего за высвечивания предупрежддения
+	Label4->Visible = false;
+	// Скрытие 2-й таблицы
+	StringGrid2->Visible = false;
+	// Проверка таблицы на корректность ввода чисел
+	for(j = 0; j < M; ++j)
+		for(i = 0; i < N; ++i)
+		{
+			if(StringGrid1->Cells[j][i].IsEmpty() == false)
+			{
+				if(TryStrToInt(StringGrid1->Cells[j][i], NoMatter) == false)
+				{
+					Label4->Visible = true;
+					Label4->Color = (TColor)RGB(255,128,128);
+					Label4->Caption = "В ячейке или ячейках, подсвеченных красным, не числа";
+					return;
+				}
+			}
+			else
+				++VoidValueInGrid;
+		}
+	// Если количество пустых клеток равна нулю, то проводим расчеты
+	if(VoidValueInGrid == 0)
+	{
+	StringGrid2->Visible = true;
+    	for(j = 0; j < M; ++j)
+		{
+			MaxNumberColumn = StrToInt(StringGrid1->Cells[j][0]);
+			AmountOfNumbers = 0;
+			for(i = 0; i < N; ++i)
+			{
+				StringGrid2 -> Cells[j][i] = StringGrid1->Cells[j][i];
+					if(MaxNumberColumn < StrToInt(StringGrid1->Cells[j][i]))
+						MaxNumberColumn = StrToInt(StringGrid1->Cells[j][i]);
+					if(((StrToInt(StringGrid1->Cells[j][i]) % 7) == 0) && (StrToInt(StringGrid1->Cells[j][i]) != 0))
+						++AmountOfNumbers;
+			}
+			if((AmountOfNumbers % 2 == 0) && (AmountOfNumbers != 0))
+				for(i = 0; i < N; ++i)
+					if(MaxNumberColumn == StringGrid1->Cells[j][i])
+						StringGrid2->Cells[j][i] = IntToStr(0);
+		}
+	}
+}
+// Отриовка ячеек 1 таблицы
+void __fastcall TForm2::StringGrid1DrawCell(TObject *Sender, int ACol, int ARow,
+      TRect &Rect, TGridDrawState State)
+{
+	int i, j, NoMatter;
+	// Объявляем переменную, в которой будем хранить текст выбранной ячейки
+	AnsiString TextInCell1 (StringGrid1->Cells[ACol][ARow]);
+	// Определение размеров 1-й ячейки
+	RECT RText = static_cast<RECT>(Rect);
+	// Если ячейка не пустая, красим её зеленым, если в ней не число, то красным
+	if(StringGrid1->Cells[ACol][ARow].IsEmpty() == false)
+	{
+		StringGrid1->Canvas->Brush->Color = clMoneyGreen;
+		StringGrid1->Canvas->FillRect(Rect);
+		if(TryStrToInt(StringGrid1->Cells[ACol][ARow], NoMatter) == false)
+		{
+			StringGrid1->Canvas->Brush->Color = (TColor)RGB(255,128,128);
+			StringGrid1->Canvas->FillRect(Rect);
+		}
+	}
+	// Вывод текста поверх закрашенной ячейки центрированной по центру в Vert и Goriz
+	DrawTextEx(StringGrid1->Canvas->Handle, TextInCell1.c_str(), TextInCell1.Length(), &RText, DT_CENTER | DT_VCENTER | DT_SINGLELINE, NULL);
+}
+// Отриовка ячеек 2 таблицы по аналогии с первой
+void __fastcall TForm2::StringGrid2DrawCell(TObject *Sender, int ACol, int ARow,
+      TRect &Rect, TGridDrawState State)
+{
+	AnsiString TextInCell2 (StringGrid2->Cells[ACol][ARow]);
+	RECT RText = static_cast<RECT>(Rect);
+	StringGrid2->Canvas->Brush->Color = (TColor)RGB(30,30,30);
+	StringGrid2->Canvas->FillRect(Rect);
+	DrawTextEx(StringGrid2->Canvas->Handle, TextInCell2.c_str(), TextInCell2.Length(), &RText, DT_CENTER | DT_VCENTER | DT_SINGLELINE, NULL);
+}
+
+*.h
+-----------------------------------------
+
+//---------------------------------------------------------------------------
+
+#ifndef Unit2H
+#define Unit2H
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <Grids.hpp>
+#include <ExtCtrls.hpp>
+#include <ComCtrls.hpp>
+//---------------------------------------------------------------------------
+class TForm2 : public TForm
+{
+__published:	// IDE-managed Components
+	TEdit *Edit1;
+	TEdit *Edit2;
+	TLabel *Label1;
+	TLabel *Label2;
+	TLabel *Label3;
+	TStringGrid *StringGrid1;
+	TStringGrid *StringGrid2;
+	TLabel *Label4;
+	void __fastcall StringGrid1KeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall Edit1KeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall StringGrid1DrawCell(TObject *Sender, int ACol, int ARow,
+          TRect &Rect, TGridDrawState State);
+	void __fastcall StringGrid2DrawCell(TObject *Sender, int ACol, int ARow,
+          TRect &Rect, TGridDrawState State);
+private:	// User declarations
+public:		// User declarations
+	__fastcall TForm2(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TForm2 *Form2;
+//---------------------------------------------------------------------------
+#endif
+
