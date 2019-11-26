@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <math.h>
+#include <windows.h>
+#include <iostream>
+#include "Parabola.h"
+
+int main()
+{
+	Parabola a;
+	return 0;
+}
+
+
+
+===================
+
+
+
+
+
+#include <stdio.h>
+#include <math.h>
+#include <windows.h>
+#include <iostream>
+#include "Parabola.h"
+using namespace std;
+
+Parabola::Parabola()
+{
+	Input();
+	Calc();
+	OutPut();
+}
+
+void Parabola::Input()
+{
+	SetConsoleOutputCP(1251);
+	cout << "Уравнение параболы: y = Ax^2 + Bx + C\n";
+	cout << "Введите A = ";
+	cin >> A;
+	system("cls");
+	cout << "Уравнение параболы: y = " << A << "*x^2 + Bx + C\n";
+	cout << "Введите B = ";
+	cin >> B;
+	system("cls");
+	cout << "Уравнение параболы: y = " << A << "*x^2 + " << B << "*x + C\n";
+	cout << "Введите C = ";
+	cin >> C;
+	system("cls");
+	cout << "Уравнение параболы: y = (" << A << ")*x^2 + (" << B << ")*x + (" << C << ")";
+}
+void Parabola::Discriminant()
+{
+	D = (B * B) - (4 * A * C);
+}
+
+void Parabola::Calc()
+{
+	Discriminant();
+	Y = -D / (4 * A);
+}
+
+void Parabola::OutPut()
+{
+	if (A < 0)
+		cout << "\nОбласть значений от " << Y << " до -бесконечности";
+	else if (A > 0)
+		cout << "\nОбласть значений от +бесконечности до " << Y;
+}
+
+
+
+================
+
+
+#ifndef _PARABOLA_CLASS_H_
+#define _PARABOLA_CLASS_H_
+
+class Parabola
+{
+private:
+	double A;
+	double B;
+	double C;
+	double Y;
+	double D;
+	void Discriminant();
+	void Input();
+	void Calc();
+	void OutPut();
+public:
+	Parabola();
+};
+
+#endif
