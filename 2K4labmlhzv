@@ -1,0 +1,64 @@
+File1.cpp
+----------------------------
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "File1.h"
+
+Disk::Disk()
+{
+	char *RadiusChar;
+	printf("Введите радиус круга R = ");
+	scanf("%s", RadiusChar);
+	while((Radius = strtod(RadiusChar, NULL)) == 0)
+	{
+		printf("Некорректный ввод числа\n"
+			   "Попробуйте ещё раз R = ");
+		scanf("%s", RadiusChar);
+	}
+}
+
+double Disk::SquareDisk(Disk)
+{
+	double pi = acos((double) - 1);
+	double Square = Radius * Radius * pi;
+	printf("Площадь круга S = %lf\n", Square);
+	return Square;
+}
+
+void Disk::SquareRing(Disk a, Disk b)
+{
+	printf("Площадь кольца = %lf\n", abs(SquareDisk(a) - b.SquareDisk(b));
+}
+
+File1.h
+----------------------------------------
+class Disk
+{
+private:
+	double Radius;
+public:
+	Disk();
+	double SquareDisk();
+	void SquareRing(Disk, Disk);
+};
+
+Unit5.cpp
+--------------------------------------
+#include <stdio.h>
+#include <conio.h>
+#include <windows.h>
+#include <cmath>
+#include "File1.cpp"
+
+void SquareRing(double, double);
+
+void main()
+{
+	SetConsoleOutputCP(1251);
+	Disk Circle1;
+	Disk Circle2;
+	SquareRing(Circle1, Circle2);
+	getch();
+}
