@@ -1,0 +1,59 @@
+#include <iostream.h>
+#include "File1.h"
+#include <windows.h>
+#include <conio.h>
+
+int main()
+{
+    SetConsoleOutputCP(1251);
+	float s1, s2, s3, p;
+	int t;
+	cout << "Введите стороны" << endl;
+	cin >> s1 >> s2 >> s3;
+	treug q (s1,s2,s3);
+	p = q.perimetr();
+	cout << "Периметр = " << p << endl;
+	cout << "Введите коэффициент подобия" << endl;
+	cin >> t;
+	treug q1(0,0,0);
+	q1 = q * t;
+	q1.printtreug();
+	getch();
+	return 0;
+}
+
+
+class treug
+{
+private:
+	float a, b, c;
+public:
+	treug(float aa, float bb, float cc): a(aa), b(bb), c(cc){}
+	float perimetr();
+	void printtreug();
+	treug operator*(int k);
+};
+
+
+#include <iostream.h>
+#include "File1.h"
+
+float treug::perimetr()
+{
+	float p = a + b + c;
+	return p;
+}
+
+void treug::printtreug()
+{
+	cout << a << " " << b << " " << c << endl;
+}
+
+treug treug::operator*(int k)
+{
+	treug s(0,0,0);
+	s.a = a * k;
+	s.b = b * k;
+	s.c = c * k;
+	return s;
+}
